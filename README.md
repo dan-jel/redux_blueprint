@@ -1,70 +1,126 @@
-# Getting Started with Create React App
+## Redux Integration for React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```bash
+npm install redux react-redux
+```
 
-## Available Scripts
+to install the dependecies
 
-In the project directory, you can run:
+<br>
+<br>
 
-### `npm start`
+## Imports
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<br>
 
-### `npm test`
+```javascript
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import allReducers from "./reducers";
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+import the dependencies in the `index.js` file in the root directory
 
-### `npm run build`
+import `allReducers` from "./reducers" if it is named "index.js".
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br>
+<br>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## allReducers
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+<br>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```javascript
+import { combineReducers } from "redux";
+import counterReducer from "./counterReducer";
+import loggedReducer from "./loggedReducer";
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+const allReducers = combineReducers({
+  counter: counterReducer,
+  logged: loggedReducer,
+});
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+export default allReducers;
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+`allReducers` just bundeles multiple reducers using the `combineReducers` function from redux because the `createStore` function by default just takes in one reducer.
 
-## Learn More
+<br>
+<br>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## create the Store
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+<br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```javascript
+const store = createStore(allReducers);
+```
 
-### Analyzing the Bundle Size
+> window.**REDUX_DEVTOOLS_EXTENSION** &&window.**REDUX_DEVTOOLS_EXTENSION**()
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+to easily check your state using the redux devtools browserextension
 
-### Making a Progressive Web App
+<br>
+<br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## example Reducer
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+<br>
 
-### Deployment
+```javascript
+const counterReducer = (state = 0, action) => {
+  switch (action.type) {
+    case "INCREMENT":
+      return state + 1;
+    case "DECREMENT":
+      return state - 1;
+    default:
+      return state;
+  }
+};
+export default counterReducer;
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- defining a `default` case, which in this case just returns the `initial state`
+- defining diffrente cases for `decrementing` and `incrementing` the state by 1
 
-### `npm run build` fails to minify
+<br>
+<br>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## using the Store
+
+---
+
+<br>
+
+```javascript
+import { useSelector, useDispatch } from "react-redux";
+```
+
+```javascript
+const counter = useSelector((store) => store.counter);
+const dispatch = useDispatch();
+```
+
+<br>
+
+- `useSelector` lets you read the state properties
+- `useDispatch` lets you use the defined cases
+
+<br>
+
+```html
+<h1>counter: {counter}</h1>
+```
+
+```html
+<button onClick={() => {dispatch({ type: "INCREMENT" })}}>
+```
