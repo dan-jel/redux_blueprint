@@ -7,13 +7,8 @@ npm install redux react-redux
 to install the dependecies
 
 <br>
-<br>
 
 ## Imports
-
----
-
-<br>
 
 ```javascript
 import { createStore } from "redux";
@@ -26,13 +21,8 @@ import the dependencies in the `index.js` file in the root directory
 import `allReducers` from "./reducers" if it is named "index.js".
 
 <br>
-<br>
 
 ## allReducers
-
----
-
-<br>
 
 ```javascript
 import { combineReducers } from "redux";
@@ -50,13 +40,8 @@ export default allReducers;
 `allReducers` just bundeles multiple reducers using the `combineReducers` function from redux because the `createStore` function by default just takes in one reducer.
 
 <br>
-<br>
 
 ## create the Store
-
----
-
-<br>
 
 ```javascript
 const store = createStore(allReducers);
@@ -67,13 +52,8 @@ const store = createStore(allReducers);
 to easily check your state using the redux devtools browserextension
 
 <br>
-<br>
 
 ## example Reducer
-
----
-
-<br>
 
 ```javascript
 const counterReducer = (state = 0, action) => {
@@ -93,13 +73,8 @@ export default counterReducer;
 - defining diffrente cases for `decrementing` and `incrementing` the state by 1
 
 <br>
-<br>
 
 ## using the Store
-
----
-
-<br>
 
 ```javascript
 import { useSelector, useDispatch } from "react-redux";
